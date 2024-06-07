@@ -1,0 +1,236 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body_block %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+body {
+    position: relative;
+    height: 95vh;
+    width: 100%;
+    background-image: url("{% static 'images/bg.png' %}");
+    background-size: cover;
+    background-position: center;
+}
+.dashboard1 h3 {
+    font-size: 24px;
+}
+.booking-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 30px;
+}
+.booking-box {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    width: 600px;
+    margin-bottom: 20px;
+    background-color: #FFFFFF;
+}
+.image-and-details-container {
+    display: flex;
+}
+.image-container img {
+    max-width: 180px;
+    height: auto;
+    border-radius: 5px;
+}
+.details-container {
+    margin-left: 5%;
+    width: 1200px;
+    border-collapse: collapse;
+    height:110px;
+    text-align: left;
+    background-color: rgba(153, 97, 186, 0.3);
+    border-radius: 10px;
+}
+.details-container .t1{
+    padding: 200px;
+    border: none;
+    border-bottom: 1px solid #c3c1c5;
+}
+.details-container t1:first-child {
+    background-color: #FFFFFF;
+    color: black;
+    font-weight: bold;
+    width: 30%;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.details-container .t1 th,
+.details-container .t1 td {
+    padding: 6px 0;
+    margin-left: 3%;
+    margin-right: 1%;
+}
+.booking-details-container {
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #FFFFFF;
+    width: 100%;
+    box-sizing: border-box;
+}
+h4{
+    text-align: center;
+    color: #9961BA;
+    margin-top: 30px;
+}
+.abc table {
+    width: 50%;
+}
+.booking-box table {
+    width: 100%;
+}
+
+.details-container{
+    margin-left: 5%;
+    padding-left: 5%;
+}
+.action-buttons {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: left;
+}
+.action-buttons a,
+.action-buttons button {
+    margin-top: 5px;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #9961BA;
+    font-size: 15px;
+    margin-right: 40px;
+}
+.action-buttons a:hover,
+.action-buttons button:hover {
+    color: #32213B;
+}
+</style>
+    <div class="booking-container">
+    {% if book %}
+        {% for i in book %}
+            <div class="booking-box">
+                <div class="image-and-details-container">
+                    <div class="image-container">
+                        <img src="{{i.car.imageURL}}">
+                    </div>
+                    <div class="details-container">
+                        <table>
+                            <tr class="t1">
+                                <th>Rider Name</th>
+                                <td>{{i.car.cust.fname}}</td>
+                            </tr>
+                            <tr class="t1">
+                                <th>Rider Email</th>
+                                <td>{{i.car.cust.email}}</td>
+                            </tr>
+                            <tr class="t1" style="border-bottom: none">
+                                <th>Contact</th>
+                                <td>{{i.car.cust.mobile}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <h4>Your Booking Details/Reciept</h4>
+                <div class="booking-details-container">
+                <table class="t2">
+                    <tr>
+                        <th>Booking Reference Number:</th>
+                        <td>{{i.id}}</td>
+                    </tr>
+                    <tr>
+                        <th>Booking Date:</th>
+                        <td>{{i.date_added}}</td>
+                    </tr>
+                    <tr>
+                        <th>Customer Name:</th>
+                        <td>{{i.name}}</td>
+                    </tr>
+                    <tr>
+                        <th>Contact Number:</th>
+                        <td>{{i.contact}}</td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td>{{i.email}}</td>
+                    </tr>
+{#                    <tr>#}
+{#                        <th>PickUp Date:</th>#}
+{#                        <td>{{i.pickup}}</td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                        <th>Drop Date:</th>#}
+{#                        <td>{{i.dropoff}}</td>#}
+{#                    </tr>#}
+                    <tr class="t1" style="border-bottom: none">
+                        <th>Route:</th>
+                        <td>{{i.car.from_place}} - {{i.car.to_place}}</td>
+                    </tr>
+                    <tr class="t1" style="border-bottom: none">
+                        <th>Travel Dates:</th>
+                        <td>{{i.car.from_date}} - {{i.car.to_date}}</td>
+                    </tr>
+                    <tr class="t1" style="border-bottom: none">
+                        <th>Estimated Timing:</th>
+                        <td>{{i.car.departure_time}} - {{i.car.arrival_time}}</td>
+                    </tr>
+                    <tr class="t1" style="border-bottom: none">
+                        <th>Luggage:</th>
+                        <td>{{i.car.luggage_details}}</td>
+                    </tr>
+                    <tr>
+                        <th>PickUp Address:</th>
+                        <td>{{i.pick_add}}</td>
+                    </tr>
+                    <tr>
+                        <th>Drop Address:</th>
+                        <td>{{i.drop_add}}</td>
+                    </tr>
+                    <tr>
+                        <th>Total Seats:</th>
+                        <td>{{i.num_seats_booked}}</td>
+                    </tr>
+					<tr>
+						<th>Total Price:</th>
+						<td>{{i.price}}</td>
+					</tr>
+                </table>
+                    <div class="action-buttons">
+				<form id="cancel-form-{{ i.id }}" action="{% url 'car_ride:cancel_booking' i.id %}" method="post">
+                    {% csrf_token %}
+					<button type="button" class="cancel-btn" onclick="showConfirmation('{{ i.id }}')">
+                    <i class="fas fa-trash-alt"></i> Cancel Booking
+                    </button>
+                </form>
+				<script>
+                    function showConfirmation(bookingId) {
+                        if (confirm('Are you sure want to cancel this booking?')) {
+                            document.getElementById('cancel-form-' + bookingId).submit();
+                        }
+                    }
+                </script>
+                <form action="{% url 'car_ride:edit_booking' i.id %}" method="get">
+                    <button type="submit" class="edit-btn">
+                    <i class="fas fa-edit"></i> Update
+                    </button>
+                </form>
+                </div>
+            </div>
+
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% if not book %}
+    <p style="margin-top: 10%; margin-right: 2%; color: white; font-size: 40px; width: 40%; border-radius: 10px;
+     padding: 20px; text-align: center; /* Add padding to create space between text and background */
+     background-color: rgba(0, 0, 0, 0.5);">You have no bookings right now !!</p>
+    {% endif %}
+</div>
+{% endblock %}

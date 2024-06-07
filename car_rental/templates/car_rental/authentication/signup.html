@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Sign up Form </title>
+    <link rel="stylesheet" type="text/css" href="{% static 'car_rental/css/style.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="{% static 'car_rental/images/logo.png' %}" alt="Logo" class="logo"> <!-- Path to your logo image -->
+        </div>
+        <div class="content">
+            <div class="side-image">
+                <img src="{% static 'car_rental/images/Frame.png' %}" alt="Side Image"> <!-- Path to your side image -->
+            </div>
+            <div class="login-form">
+
+                <form method="POST">
+                  {% csrf_token %}
+                <div style="padding: 0 0 50px 0;">
+                        <h2>Sign up</h2>
+                        <p>Alrady register? <a href="{% url 'rentallogin' %}" style="color: white;"> Sign in for free   </a></p>
+
+                    </div>
+                        {% if msg %}
+                            {{ msg }}
+                        {% endif %}
+
+
+                        {% if errorMsg %}
+                            <h1>Error</h1>
+                            {{ errorMsg }}
+                        {% endif %}
+                        {{ addUserForm }}
+                <div style="margin-bottom: 30px;">
+                            <div class="form-flex">
+                                <div class="check">
+                                    <input type="checkbox" id="checkbox1" class="checkbox-input">
+                                    <label for="checkbox1" class="checkbox-label">Remember me ?</label>
+                                </div>
+                                <a class="forg" href="">Forget password?</a>
+                            </div>
+                </div>
+
+                    <button type="submit">Sign Up</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>

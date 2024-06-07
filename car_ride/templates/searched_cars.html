@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body_block %}
+<style>
+    .parentDiv {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 0 3%;
+    }
+    .content1 {
+        width: calc(50% - 20px);
+        margin-bottom: 20px;
+        background-color: rgba(153, 97, 186, 0.2);
+        border-radius: 10px;
+        border: 2px solid #9961BA;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        padding: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: row;
+    }
+    .content1:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    .content1 img {
+        width:45%;
+        max-height: 150px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-right: 20px;
+    }
+    .content1 table {
+        width: 65%;
+        margin-right: 8%;
+    }
+    .content1 th,
+    .content1 td {
+        padding: 5px;
+        font-size: 16px;
+    }
+    .content1 th {
+        text-align: left;
+        width: 45%;
+    }
+    .parentDiv button {
+        padding: 8px 16px;
+        background-color: #9961BA;
+        color: #FFFFFF;
+        border-color: #9961BA;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+        margin-top: 40px;
+        display: inline-block;
+        text-decoration: none;
+        width: 150px;
+    }
+    .parentDiv button:hover {
+        background-color:  rgba(153, 97, 186, 0.2);
+        transform: scale(1.05);
+        color: #0a0a0a;
+    }
+    .car-intro .thumbnail {
+        width: 85%;
+        max-height: 150px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+</style>
+<div class="parentDiv">
+    {% for car in cars %}
+    <div class="content1">
+    <div class="car-intro">
+        <img class="thumbnail" src="{{ car.car_img.url }}" alt="Car Image">
+        {% if user.is_authenticated %}
+            {% if car.cust != user.customer %}
+                <a href="{% url 'car_ride:cardetails' car.pk %}">
+                    <button name="book_car_{{ car.pk }}">Book Now</button>
+                </a>
+            {% endif %}
+        {% else %}
+            <a href="{% url 'PATH:login' %}?next={% url 'car_ride:cardetails' car.pk %}">
+                <button name="book_car_{{ car.pk }}">Book Now</button>
+            </a>
+        {% endif %}
+    </div>
+        <table>
+            <tr>
+                <th>Rider:</th>
+                <td>{{ car.cust.fname }}</td>
+            </tr>
+            <tr>
+                <th>Contact:</th>
+                <td>{{ car.cust.mobile }}</td>
+            </tr>
+            <tr>
+                <th>Route:</th>
+                <td><h6>{{ car.from_place }} To {{ car.to_place }}</h6></td>
+            </tr>
+            <tr>
+                <th>Travel Dates:</th>
+                <td>{{ car.from_date }} - {{ car.to_date }}</td>
+            </tr>
+            <tr>
+                <th>Timing:</th>
+                <td>{{ car.departure_time }} - {{ car.arrival_time }}</td>
+            </tr>
+            <tr>
+                <th>Seats Left:</th>
+                <td>{{ car.total_seats }}</td>
+            </tr>
+            <tr>
+                <th>Reserved:</th>
+                <td>{{ car.seats_booked }}</td>
+            </tr>
+            <tr>
+                <th>Price:</th>
+                <td>CAD ${{ car.price }}</td>
+            </tr>
+        </table>
+</div>
+{% endfor %}
+    {% if not cars %}
+    <p><center style="margin-top: 10%; margin-left: 10%; margin-right: 10%; color: white; font-size: 40px; width: 45%; border-radius: 10px; padding: 20px; background-color: #9961BA; opacity: 70%;">No rides available at this moment</center></p>
+    {% endif %}
+</div>
+{% endblock %}

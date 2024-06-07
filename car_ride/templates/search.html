@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body_block %}
+<style>
+ body {
+    position: relative;
+    height: 95vh;
+    width: 100%;
+    background-image: url("{% static 'images/bg.png' %}");
+    background-size: cover;
+    background-position: center;
+ }
+ div.title-container {
+    text-align: center;
+    margin-top: 100px;
+ }
+ .form-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #FFFFFF;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-bottom: 270px;
+  }
+  .form-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+  }
+  .form-group label {
+      width: 100px;
+      margin-right: 10px;
+      text-align: right;
+        color: black;
+  }
+  .form-group input {
+      flex: 1;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+  }
+.content{
+    color: #ffffff;
+}
+button {
+  padding: 10px 20px;
+  background-color: #9961BA;
+  color: #FFFFFF;
+  border-color: #9961BA;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 20%;
+  margin-top: 18px;
+}
+button:hover {
+  background-color: #FFFFFF;
+  color: #9961BA;
+}
+
+.title-container {
+  text-align: center;
+  margin-top: 150px;
+}
+
+.title-content {
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+  padding: 20px;
+}
+
+.title-content h2,
+.title-content h4 {
+  margin: 0;
+}
+
+
+
+.title-content {
+  width: 70%;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+    margin-left: 16%;
+    margin-bottom: 5%;
+}
+
+.title-content p
+{
+  margin: 0;
+}
+
+.form-container {
+  max-width: 1000px;
+  padding: 20px;
+  background-color: #FFFFFF;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-top: 20px;
+  margin-bottom: 270px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #9961BA;
+  color: #FFFFFF;
+  border-color: #9961BA;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 20%;
+  margin-top: 18px;
+}
+
+button:hover {
+  background-color: #FFFFFF;
+  color: #9961BA;
+}
+</style>
+<div class="background-image">
+  <div class="container">
+    <div class="title-container">
+      <div class="title-content">
+        <p style="margin-bottom: 2%; font-size: 40px">Find Your Best Ride</p>
+        <p style="font-size: 25px">We are ready to serve you the best Ride.</p>
+      </div>
+    </div>
+    <div class="form-container">
+      <form action="#" method="post">
+        <div class="form-group">
+          <form action="#" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button id="add">Search Ride</button><br><br>
+          </form>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,272 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="{% static 'car_rental/css/RentalCar.css' %}" />
+    <link rel="stylesheet" href="{% static 'car_rental/css/home.css' %}" />
+    <link rel="stylesheet" href="{% static 'car_rental/css/login.css' %}" />
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<header>
+    <div class="background-image">
+        <nav class="navbar">
+            <div class="containers">
+              <div class="navbar-logo">
+                <img src="../../static/PATH/images/logo.png" alt="Logo" />
+              </div>
+              <ul class="navbar-menu">
+                <li><a href="{% url 'PATH:homepage' %}" >Home</a></li>
+                <li><a href="{% url 'dashboard' %}" class="active">Rental car</a></li>
+                <li><a href="{% url 'car_ride:home' %}">Rides</a></li>
+                  <li><a href="http://localhost:8000/parcel_service/homepage/">Parcel service</a></li>
+              </ul>
+              <div class="navbar-buttons">
+                  {% if request.user.username %}
+                      <h1 style="color: white;">Welcome, {{ request.user.username }}!</h1>
+                      <a href="{% url 'PATH:logout' %}"><button class="signup-btn">Log Out</button></a>
+                  {% else %}
+                  <a href="{% url 'PATH:register' %}"><button class="signup-btn">Sign Up</button></a>
+                  <a href="{% url 'PATH:login' %}"> <button class="login-btn active">Login</button></a>
+                  {% endif %}
+              </div>
+            </div>
+          </nav>
+         {% if request.user.username %}
+               <br><br><br><br><br><br><br>
+                    <nav class="" style="background-color: #0c0b0b">
+                        <div class="containers">
+                          <div class="navbar-logo">
+                            <h1 style="">Car Rental</h1>
+                          </div>
+                          <ul class="navbar-menu">
+                            <li><a href="{% url 'userDashboard' %}" >Dashboard</a></li>
+                            <li><a href="#" class="active">Rent a car</a></li>
+                            <li><a href="{% url 'getReservations' %}">My Rentals</a></li>
+                            <li><a href="">My Profile</a></li>
+                          </ul>
+                          <div class="navbar-buttons">
+
+                          </div>
+                        </div>
+                  </nav>
+         {% else %}
+
+         {% endif %}
+        <div class="box">
+            <div class="inner-box" style="margin-bottom: 0;">
+                <h1 class="inner-heading">
+                    Find your rental car
+                </h1>
+                <p class="inner-paragraph">
+                    Carent, is ready to serve the best experience in car rental.
+                </p>
+            </div>
+        </div>
+        <div style="width: 1200px;left: 205px; position: absolute;top: 400px; background: white;border-radius:20px ;">
+            <div>
+                <form name="bookRentalCar" method="POST" action="http://localhost:8000/car_rental/bookaCar/">
+                    {% csrf_token %}
+                <div class="row">
+                    <div class="input-group1">
+
+                        <select name="pickup_location" required>
+                            <option value="" disabled selected>Pickup Location</option>
+                            <!-- Add options for pickup locations -->
+                            <option value="Windsor">Windsor</option>
+                            <option value="Toronto">Toronto</option>
+                            <option value="London">London</option>
+                          </select>
+
+                    </div>
+                    <div class="input-group1">
+                        <input name="rental_start_date" type="date" placeholder="Pickup Date">
+                      </div>
+
+                      <div class="input-group1">
+                        <input name="rental_end_date" type="date" placeholder="Return Date">
+                      </div>
+                </div>
+                <div class="row">
+                    {% if  car_id_selected  %}
+                       <input type="hidden" name="car_type" value="{{ car_type }}">
+                    {% else %}
+                      <div class="input-group2">
+                        <select name="car_type" required>
+                            <option value="" disabled selected>Car Type</option>
+                            <option value="sedan">Sedan</option>
+                            <option value="sports">Sports</option>
+                            <option value="suv">SUV</option>
+                            <option value="truck">Truck</option>
+                            <option value="van">Van</option>
+                          </select>
+
+                     </div>
+                    {% endif %}
+
+                    <div class="input-group2">
+                        <input name="pickup_time" type="time" placeholder="Pickup Time">
+                      </div>
+                      <div class="input-group2">
+                        <input name="return_time" type="time" placeholder="Return Time">
+                      </div>
+                      <button type="submit" class="book-now">Book Now</button>
+                </div>
+              </form>
+            </div>
+        </div>
+    </div>
+
+</header>
+
+<body>
+    <section style="margin: 20px 0;">
+        <div class="car-top-headings">
+            <h1>Choose Your Suitable Car</h1>
+            <p>
+                We present popular cars that are rented by customers to maximize your comfort on long trips.</p>
+        </div>
+         <form id="carFilterForm" action="{% url 'dashboard' %}" method="POST">
+            {% csrf_token %}
+        <!-- Your form fields here -->
+        </form>
+
+        <div class="rental-page-width">
+            <div class="rental-page-flex">
+            <div class="filter-box-width">
+                <div class="clearall-btn">
+                <button id="clearAllBtn">Clear all</button>
+                </div>
+                <form id="carFilterForm" action="{% url 'dashboard' %}" method="POST">
+                    {% csrf_token %}
+                <div class="filter-clearall">
+                    <div class="filter">
+                        <h4>Apply Filters</h4>
+                    </div>
+
+                </div>
+
+                <div class="select-codes">
+                    <div class="select-care-date">
+                        <div class="select-seats">
+                        <div class="login-form">
+
+                            <h3>Seats</h3>
+
+                        <div class="input-group1">
+                        <select class="form-control"  id="inputState" name="seats">
+                            <option value="5">4/5 Seater</option>
+                            <option value="7">6/7 Seater</option>
+                        </select>
+                        </div>
+
+                        </div>
+                        </div>
+                    </div>
+                    <div class="select-care-date">
+                        <div class="car-type" >
+                        <h2>Car type</h2>
+                        <div class="input-group1">
+                            <select id="carTypeSelect" name="car_type">
+                                <option value="sedan">Sedan</option>
+                                <option value="suv">SUV</option>
+                                <option value="truck">Truck</option>
+                                <option value="van">Van</option>
+                                <option value="sports">Auto Pilot</option>
+                            </select>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="select-care-date">
+                        <div class="fuel-type-pd">
+                        <h2>Fuel type</h2>
+                            <div class="input-group1">
+                                <select id="fuelTypeSelect" name="fuel_type">
+                                    <option value="petrol">Petrol</option>
+                                    <option value="diesel">Diesel</option>
+                                </select>
+                            </div>
+                    </div>
+                    </div>
+                    <button type="submit" class="book-now" style="margin: 22px">Apply Filter</button>
+                </div>
+
+            </form>
+
+            </div>
+            <div class="cars-box-width">
+                <div class="rental-car-box-width-height-main-box">
+                <div class="rental-car-three-car-box">
+                    {% for car in cars %}
+                    <div class="rental-car-single-car-box">
+                        <div class="rental-car-car-image-box">
+                            <div style="padding: 39px 24px;">
+                                <img style="width: 254px;height: 127px;" src="{{ car.photo.url }}" alt="">
+                            </div>
+                        </div>
+                        <div class="rental-car-car-detail-box">
+
+                            <div style="padding: 5px 15px;">
+                                <p class="rental-car-car-name">{{ car.make }} {{ car.model }}</p>
+                            </div>
+                            <div
+                                style="display: flex;align-items: center; justify-content: space-between;padding: 5px 15px">
+
+                                <p class="rental-car-car-price">$ {{ car.daily_rate }}<sub>/ Day</sub></p>
+                                <p class="rental-car-car-location"><i class="fa-solid fa-location-dot"></i> Djakarta</p>
+
+                            </div>
+                            <div class="rental-car-car-button-border">
+                                <div style="padding: 11.28px;">
+                                    <div class="rental-car-car-button">
+                                        <div style="padding: 7px 18px;">
+
+                                            <div class="rental-car-main-btns">
+                                                <i style="color: white;" class="fa-solid fa-phone fa-xl"></i>
+                                                 <a href="http://localhost:8000/car_rental/getCarDetail/{{ car.id }}"><button class="action-button">Rent Now</button> </a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="see-all-btn" style="text-align: center;">
+                    <button>See All</button>
+                </div>
+            </div>
+
+            </div>
+
+
+        </div>
+
+
+        </div>
+
+    </section>
+</body>
+</html>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("clearAllBtn").addEventListener("click", function () {
+            // Set the form method to GET
+            document.getElementById("carFilterForm").method = "GET";
+            // Submit the form
+            document.getElementById("carFilterForm").submit();
+        });
+    });
+</script>
